@@ -30,10 +30,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal, onOpenResumeModa
   const navLinks = [
     { label: 'Case Studies', href: '#case-studies' },
     { label: 'Architecture', href: '#architecture' },
-    { label: 'Code & Blueprints', href: '#code-inspector' },
     { label: 'Projects', href: '#projects' },
     { label: 'Journey', href: '#experience' },
     { label: 'Certifications', href: '#certifications' },
+    { label: 'Skills', href: '#skills' },
     { label: 'Contact', href: '#contact' },
   ];
 
@@ -189,4 +189,3 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal, onOpenResumeModa
     </header>
   );
 };
-

@@ -12,26 +12,28 @@ A modern, high-impact personal website inspired by the bold editorial storytelli
 
 ---
 
-## 💡 How This Solves the "Enterprise Work / No Public Portfolio" Challenge
+## 💡 Executive Portfolio & NDA-Safe Architecture Strategy
 
-Enterprise engineers at firms like **KPI Partners**, **Accenture**, and universities build mission-critical solutions protected by corporate firewalls, SSO, and NDAs.
+Enterprise work built for organizations such as **KPI Partners**, **Accenture**, and academic institutions is protected by corporate governance, SSO, and NDAs. 
 
-Rather than relying on toy demo apps, this website showcases your verified production capabilities through **Deep-Dive Architectural Case Studies & Live Code Blueprints**:
-- **Medical Review AI Orchestrator & Persistence:** Databricks warehouse SQL (`vs_current_clinical_data`) with delta metrics, AI Builder prompt evaluation (`dm_query` & `medical_query`), schema validation via `ParseJson`, and an immutable **Update-Only constraint** in Azure SQL (`GetItems_V2` + `PatchItem_V2` preventing orphaned inserts).
-- **Embedded PowerBIIntegration Canvas Apps:** Inline clinical adjudication directly within Power BI reports dynamically detecting user roles (`Scientific Reviewer` vs `Medical Reviewer`) and bypassing 1,000-record delegation limits with `ClearCollect`.
-- **Monday.com GraphQL Upsert & Archive Sanity Engine:** Scheduled OneDrive synchronization (`MasterList_yyyymmdd.xlsx`) with Monday.com GraphQL API, composite key upserts `lower(trim(client)) || lower(trim(project))`, and a fail-safe **Archive Sanity Gate** (`rowsRead >= 150 AND rowsRead >= 80% boardCount`) preventing accidental mass board purge.
-- **High-Throughput Risk Category Generator (RACT):** Dynamic array chunking `@chunk(..., 100)` with 20 parallel threads (`repetitions: 20`) executing atomic Databricks `MERGE INTO ... WHEN MATCHED THEN UPDATE` statements without table locks.
-- **Azure AI Foundry Financial POC:** Custom document analyzer trained on a ground-truth corpus of 20 legal contracts and 50 medical invoices with 95%+ confidence.
-- **Power BI Asynchronous Dataset Refreshes:** Automated `POST /refreshes` with exponential backoff on HTTP 429 throttling and polling against `requestId` history.
+Rather than exposing proprietary code or internal database schemas on a public website, this portfolio focuses on **High-Level Systems Architecture, Business ROI, and Key Discussion Topics for Interviews**:
+
+- **Clinical Data Review & Embedded AI Adjudication Platform:** In-report Power BI embedded Canvas UI, overcoming low-code delegation barriers with chunked in-memory caching, and defensive update-only database persistence (**60% faster clinical review cycles**).
+- **Resilient Cloud Data Sync & Safeguarded GraphQL Engine:** Scheduled weekly workbook sync with Monday.com GraphQL API, composite key resolution, and a defensive **Archive Sanity Gate** preventing accidental mass data wipes.
+- **High-Throughput Risk Classification & Cloud Capacity Optimizer:** Scaling batch pipelines with dynamic array chunking and 20 parallel threads, non-locking bulk write-backs, and automated Microsoft Fabric compute auto-scaling via KQL alerts (**70% compute cost cut, 15+ hours/week saved**).
+- **Azure AI Foundry Content Understanding POC:** Supervised ground-truth modeling for automated contract-to-invoice disparity detection (**95%+ extraction confidence score, 50% faster audit cycle**).
+- **Higher-Ed Student Lifecycle Modernization:** Authenticated Power Pages self-service, REST API synchronization into Dataverse, and grounded Copilot Studio agents (**83.5% support query deflection, 27,000 users migrated**).
+- **Cross-Tenant Enterprise Migration & CoE Governance:** Modernization of 500+ legacy Nintex/Designer workflows, unattended Power Automate Desktop (RPA) validation bots across thousands of sites, and multi-tier ALM pipelines.
+
+Each case study includes dedicated **"Topics to Dive Into During an Interview"** to spark meaningful technical conversations with hiring managers and engineering leads.
 
 ---
 
 ## ✨ Features
 
 - 📰 **Editorial / Comic Masthead ("Issue #01"):** High-contrast comic panels, Ben-Day halftone patterns, status badges (`200 OK`, `PL-600 ARCHITECT`), and impact typography.
-- 💻 **Interactive CLI Command Deck:** Built-in retro terminal with command execution (`help`, `about`, `case-studies`, `monday`, `medical`, `poc`, `code`, `certs`, `skills`, `cat`) and hotkey history.
-- 🔬 **Production Code & Architecture Inspector:** Dedicated visual inspector for actual production code artifacts: Databricks SQL atomic MERGE statements, Power Fx `ClearCollect` expressions, Monday.com GraphQL mutations, and AI Builder prompt schemas.
-- ⚡ **Interactive Architecture Flow Simulator:** Step through production data pipelines with stage-by-stage status indicators and execution outputs.
+- 💻 **Interactive CLI Command Deck:** Built-in retro terminal with command execution (`help`, `about`, `case-studies`, `monday`, `medical`, `poc`, `certs`, `skills`, `cat`) and hotkey history.
+- ⚡ **Interactive System Architecture Flow Simulator:** Step through conceptual production pipelines (Clinical Lakehouse Review, Cross-Platform Sync & Sanity Gate, High-Throughput Risk Engine) with stage-by-stage status indicators.
 - 🏆 **8x Microsoft Certifications Gallery:** Interactive badge deck (PL-600 Solution Architect, PL-400 Developer, AZ-204 Azure Developer, AI-900, SC-900, PL-900, AZ-900, MS-900) with category filters and celebration confetti.
 - 🔊 **Web Audio API Native Sound Synthesizer:** Subtle, optional retro sound FX (zero external audio files to download; 100% browser-native).
 - 📄 **Instant Resume Modal & Print Preview:** In-browser resume viewer with instant one-click PDF printing.
@@ -65,7 +67,7 @@ This repository includes a pre-configured `.github/workflows/deploy.yml`.
 2. **Push your code to the repository**:
    ```bash
    git add .
-   git commit -m "feat: add enterprise case studies and architecture blueprints"
+   git commit -m "feat: redesign portfolio with executive case studies and interview topics"
    git branch -M main
    git remote add origin https://github.com/<your-username>/<your-repo-name>.git
    git push -u origin main
@@ -84,4 +86,3 @@ This repository includes a pre-configured `.github/workflows/deploy.yml`.
 npm run deploy
 ```
 Then in GitHub **Settings** &rarr; **Pages**, select branch **`gh-pages`** and folder **`/ (root)`**, then click **Save**.
-

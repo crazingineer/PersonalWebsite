@@ -18,187 +18,146 @@ export interface ArchitectureFlow {
 export const architectureFlows: ArchitectureFlow[] = [
   {
     id: "clinical-pipeline",
-    name: "Medical Review AI Orchestrator & Persistence Flow",
-    summary: "How embedded Power Apps, Dataverse, Databricks, and AI Builder execute clinical adjudication with an immutable Update-Only constraint in Azure SQL.",
+    name: "Clinical Analytics & Review Ecosystem",
+    summary: "High-level integration topology showing how Lakehouse data, AI anomaly scoring, embedded Canvas UIs, and strict database persistence interact.",
     businessImpact: "Accelerates clinical review cycle by 60% with zero orphaned database rows",
     steps: [
       {
         id: "step-1",
-        component: "Databricks Warehouse Extraction",
+        component: "Enterprise Data Lakehouse",
         category: "database",
-        action: "Query changed clinical vitals with delta metrics",
-        detail: "Executes SQL on iep_dev.fcranking_encur.vs_current_clinical_data WHERE row_status IN ('New', 'Changed'), extracting vitals, BMI, BP, and delta percentages from prior visits using @coalesce().",
-        output: "Bifurcated Clinical Data Array"
+        action: "Query clinical vitals & historical delta metrics",
+        detail: "Extracts newly ingested or modified participant records with percentage variance calculations against baseline observations.",
+        output: "Bifurcated Clinical Data Streams"
       },
       {
         id: "step-2",
-        component: "AI Builder Custom Prompt (aibuilderpredict)",
+        component: "AI Builder Model Layer",
         category: "ai",
-        action: "Clinical anomaly detection & risk synthesis",
-        detail: "Custom prompt acts as Clinical Medical Reviewer, segregating outputs into dm_query (data quality/impossibilities) and medical_query (risk flags, BP shifts, weight increase >10%).",
-        output: "Schema-Validated JSON (ParseJson)"
+        action: "Anomaly detection & risk evaluation",
+        detail: "Custom NLP models synthesize physiological parameters, isolating data quality checks from critical health risk alerts.",
+        output: "Structured Health Assessment Schema"
       },
       {
         id: "step-3",
-        component: "Embedded Canvas App ([@PowerBIIntegration].Data)",
+        component: "Embedded Interactive Canvas UI",
         category: "frontend",
-        action: "Inline reviewer adjudication",
-        detail: "Power BI passes contextual reviewer role; Canvas App sets dynamic state (Awaiting Scientific Review vs Awaiting Medical Review) and populates in-memory ClearCollect buffer.",
-        output: "Adjudicated Reviewer Action Payload"
+        action: "In-report reviewer adjudication",
+        detail: "Embedded directly inside Power BI reports, enabling reviewers to perform inline triage without switching applications.",
+        output: "Validated Reviewer Verdict Payload"
       },
       {
         id: "step-4",
-        component: "Azure SQL Strict Persistence Layer",
+        component: "Strict Persistence Gateway",
         category: "database",
-        action: "Immutable Update-Only (Failsafe Constraint)",
-        detail: "Performs GetItems_V2 lookup ($filter=\"record_id eq '<id>'\"). Only matched records proceed to PatchItem_V2. Strict architectural failsafe prevents any PostItem_V2 inserts.",
-        output: "Patched Clinical Records (Zero Orphan Rows)"
+        action: "Defensive update-only persistence",
+        detail: "Lookup-verified patch pipeline enforcing an immutable constraint: only updates existing participant records, strictly blocking orphan inserts.",
+        output: "ACID-Compliant State Sync"
       },
       {
         id: "step-5",
-        component: "Power BI Dataset Refresh Poller",
+        component: "Power BI Semantic Orchestrator",
         category: "cloud",
-        action: "Asynchronous REST API polling",
-        detail: "Dispatches POST to /datasets/<id>/refreshes with retry handling on 429 throttling (Do until status 200/202). Polls /refreshes matching requestId header across top 60 history items.",
-        output: "Power BI Dashboard Synchronized"
+        action: "Asynchronous REST API dataset refresh",
+        detail: "Automates semantic model cache invalidation with exponential backoff retry loops on API throttling and status polling.",
+        output: "Live Synchronized Executive Visuals"
       }
     ]
   },
   {
     id: "monday-upsert-pipeline",
-    name: "Monday.com GraphQL Upsert & Archive Sanity Engine",
-    summary: "Automated OneDrive Excel synchronization with Monday.com GraphQL API, composite key upserts, and an Archive Sanity Gate preventing mass data purge.",
-    businessImpact: "100% automated weekly board sync with bulletproof deletion safeguards",
+    name: "Cross-Platform Enterprise Data Sync & Sanity Gate",
+    summary: "Architectural blueprint of weekly master file synchronization with collaboration boards via GraphQL and defensive deletion sanity gates.",
+    businessImpact: "100% automated board synchronization with bulletproof deletion safeguards",
     steps: [
       {
         id: "step-1",
-        component: "OneDrive File Version Resolver",
+        component: "Master Repository Scanner",
         category: "automation",
-        action: "Scan & identify latest MasterList workbook",
-        detail: "Lists files matching MasterList_*.xlsx in OneDrive folder, parses yyyymmdd date suffix, and binds the latest file ID and name for processing.",
-        output: "Latest MasterList File Pointer"
+        action: "Identify latest master revision",
+        detail: "Scans cloud storage directory, evaluates filename date metadata, and binds the newest master revision for synchronization.",
+        output: "Active Revision Pointer"
       },
       {
         id: "step-2",
-        component: "Composite Key Generator",
+        component: "Composite Key Matching Engine",
         category: "database",
-        action: "Build composite keys & normalize dates",
-        detail: "Reads Table1 rows; generates composite key lower(trim(client)) || lower(trim(project)); auto-converts Excel serial date numbers (e.g., 46193) into standardized YYYY-MM-DD.",
-        output: "Normalized Unique Entity Array"
+        action: "Entity resolution & date normalization",
+        detail: "Generates multi-attribute composite keys to uniquely identify projects across disparate systems and standardizes serial dates.",
+        output: "Unique Entity Registry"
       },
       {
         id: "step-3",
-        component: "Monday.com GraphQL Cursor Paginator",
+        component: "GraphQL Cursor Paginator",
         category: "cloud",
-        action: "Fetch live board items via GraphQL",
-        detail: "Queries Monday.com GraphQL API endpoint with Bearer auth; paginates through entire board using cursor navigation to retrieve live item IDs and column values.",
-        output: "Paginated Board Snapshot (varExisting)"
+        action: "Retrieve live board snapshot",
+        detail: "Queries target board using cursor-based pagination over GraphQL API, retrieving current items while respecting rate boundaries.",
+        output: "Paginated Board Snapshot"
       },
       {
         id: "step-4",
-        component: "Archive Sanity Gate Safety Check",
+        component: "Archive Sanity Threshold Gate",
         category: "automation",
-        action: "Validate deletion threshold before archiving",
-        detail: "allowArchive = (rowsRead >= 150) AND (rowsRead >= 0.8 * boardCount). If sanity check fails, aborts archive phase and dispatches automated Outlook alert.",
-        output: "Sanity Gate Verdict: TRUE/FALSE"
+        action: "Defensive volume & ratio verification",
+        detail: "Evaluates minimum volume and board retention ratio: if source rows drop below safety threshold, mass deletion is blocked and alerts dispatch.",
+        output: "Sanity Gate Clearance"
       },
       {
         id: "step-5",
-        component: "GraphQL Upsert & Archive Mutations",
+        component: "Rate-Controlled Mutation Engine",
         category: "cloud",
-        action: "Execute rate-limited GraphQL mutations",
-        detail: "Executes mutation change_multiple_column_values for matches, create_item for new rows, and mutation archive_item for dropped rows (concurrency 1, max 150 req/min).",
-        output: "Board Fully Reconciled"
+        action: "Execute upserts & controlled archives",
+        detail: "Executes batch column updates for existing items, creates missing records, and safely archives dropped items under strict rate limits.",
+        output: "Target Board Reconciled"
       }
     ]
   },
   {
     id: "ract-ingestion",
-    name: "High-Throughput Risk Category Generator (RACT)",
-    summary: "Batch processing pipeline chunking records into parallel worker threads and writing to Databricks using atomic MERGE INTO statements.",
-    businessImpact: "20x higher throughput and saves 15+ manual hours weekly",
+    name: "High-Throughput Risk Classification & Capacity Scaling",
+    summary: "Massive scale batch processing architecture utilizing dynamic chunking, parallel AI inference threads, and cloud capacity auto-scaling.",
+    businessImpact: "20x higher throughput, 15+ hours saved weekly, and 70% cloud compute savings",
     steps: [
       {
         id: "step-1",
-        component: "Databricks Risk Source Extraction",
+        component: "Enterprise Risk Repository",
         category: "database",
-        action: "Query unprocessed risk descriptions",
-        detail: "Pulls unclassified risk descriptions from Databricks warehouse in high-volume arrays.",
-        output: "Raw Unclassified Risk Records"
+        action: "Ingest unstructured risk descriptions",
+        detail: "Extracts thousands of unclassified operational and project risk descriptions awaiting standardized taxonomy tagging.",
+        output: "Raw Unclassified Risk Stream"
       },
       {
         id: "step-2",
-        component: "Dynamic Chunking Expression Engine",
+        component: "Dynamic Chunking Engine",
         category: "automation",
-        action: "@chunk(data_array, 100) Partitioning",
-        detail: "Batches massive record arrays into 100-item sub-arrays to optimize memory footprint and prevent API call throttling.",
+        action: "Partition payload into sub-arrays",
+        detail: "Splits bulk records into optimized 100-item chunks, preventing memory bottlenecks and API timeout constraints.",
         output: "Chunked Array Matrix (100 items/chunk)"
       },
       {
         id: "step-3",
-        component: "Parallel Concurrency Controller (20 Threads)",
-        category: "automation",
-        action: "Simultaneous AI Builder inference",
-        detail: "Executes Apply_to_each_Batch loop configured with 20 parallel threads (repetitions: 20), routing batches into AI Builder custom prompts concurrently.",
-        output: "Multi-threaded AI Taxonomy Classifications"
+        component: "Parallel AI Worker Pool (20 Threads)",
+        category: "ai",
+        action: "Concurrent model inference",
+        detail: "Orchestrates 20 parallel execution threads to evaluate categorized risk severities simultaneously across model endpoints.",
+        output: "Classified Multi-Thread Matrix"
       },
       {
         id: "step-4",
-        component: "Select & Join Matrix Compaction",
-        category: "automation",
-        action: "Payload restructuring for bulk SQL",
-        detail: "Power Automate Select action maps AI outputs into row tuples; Join action concatenates tuples into an atomic SQL VALUE block.",
-        output: "Formatted SQL VALUES String"
+        component: "Atomic Bulk Write-Back",
+        category: "database",
+        action: "Non-locking merge execution",
+        detail: "Compacts evaluated arrays into atomic database merge statements that update matched records without table lock contention.",
+        output: "Bulk Records Committed in Milliseconds"
       },
       {
         id: "step-5",
-        component: "Atomic Databricks MERGE INTO Execution",
-        category: "database",
-        action: "Bulk update without database table locks",
-        detail: "Executes MERGE INTO target USING (SELECT * FROM VALUES ...) ON target.ID = source.id WHEN MATCHED THEN UPDATE SET ... (Omits INSERT clause for strict update-only).",
-        output: "Thousands of Records Updated in Milliseconds"
-      }
-    ]
-  },
-  {
-    id: "ai-foundry-financial-poc",
-    name: "Azure AI Foundry Contract & Invoice Audit POC",
-    summary: "Automated financial compliance system cross-referencing invoice line items against contractual rate cards and master service agreements.",
-    businessImpact: "95%+ extraction confidence and 50% faster compliance audit cycle",
-    steps: [
-      {
-        id: "step-1",
-        component: "Multi-Format Document Ingestion",
-        category: "frontend",
-        action: "Inbound vendor contracts & medical invoices",
-        detail: "Ingests scanned PDFs, digital invoices, and multi-page master service agreements (MSAs) into Azure Blob Storage.",
-        output: "Unstructured Document Stream"
-      },
-      {
-        id: "step-2",
-        component: "Custom Trained Analyzer (AI Foundry)",
-        category: "ai",
-        action: "Domain-specific OCR & Content Understanding",
-        detail: "Custom model trained on 20 contracts and 50 invoices extracts billing terms, hourly rates, medical procedure codes, and milestone schedules.",
-        output: "Structured Ground-Truth Entities (>95% Confidence)"
-      },
-      {
-        id: "step-3",
-        component: "Disparity & Rate Card Cross-Referencing",
+        component: "Dynamic Cloud Capacity Auto-Scaler",
         category: "cloud",
-        action: "Automated billing reconciliation",
-        detail: "Cross-references extracted invoice line items against governing contract pricing tiers to detect overbilling, unauthorized items, and rate deviations.",
-        output: "Discrepancy Audit Flag Matrix"
-      },
-      {
-        id: "step-4",
-        component: "Compliance Reporting & Automated Dispatch",
-        category: "automation",
-        action: "Exception triage & auditor dashboard",
-        detail: "Replaces brittle legacy Python regex scripts, delivering automated discrepancy summaries directly to financial auditors.",
-        output: "Verified Audit Clearance / Disparity Flag"
+        action: "Scale compute resources on demand",
+        detail: "KQL query alerts monitor pipeline activity; Logic Apps scale cloud capacity up during runs and pause idle compute, saving 70%.",
+        output: "70% Cloud Compute Cost Optimization"
       }
     ]
   }
 ];
-

@@ -10,6 +10,7 @@ export interface Certification {
 export interface EnterpriseCaseStudy {
   id: string;
   title: string;
+  category: string;
   clientContext: string;
   role: string;
   timeline: string;
@@ -19,15 +20,10 @@ export interface EnterpriseCaseStudy {
     highlight?: boolean;
   }[];
   challenge: string;
-  architectureSolution: string[];
-  keyEngineeringTriumph: string;
+  architectureHighlights: string[];
+  interviewTopics: string[];
   technologies: string[];
   tag: string;
-  codeSnippetPreview?: {
-    language: string;
-    title: string;
-    code: string;
-  };
 }
 
 export interface TechnicalProject {
@@ -72,4 +68,3 @@ export interface SkillCategory {
     featured?: boolean;
   }[];
 }
-

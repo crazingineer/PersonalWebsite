@@ -3,7 +3,6 @@ import { Navbar } from './components/Navbar';
 import { HeroCover } from './components/HeroCover';
 import { InteractiveTerminal } from './components/InteractiveTerminal';
 import { EnterpriseCaseStudies } from './components/EnterpriseCaseStudies';
-import { CodeArtifactsViewer } from './components/CodeArtifactsViewer';
 import { ArchitectureDiagram } from './components/ArchitectureDiagram';
 import { TechnicalProjects } from './components/TechnicalProjects';
 import { ExperienceTimeline } from './components/ExperienceTimeline';
@@ -51,13 +50,10 @@ export const App: React.FC = () => {
         {/* Interactive CLI Console Deck */}
         <InteractiveTerminal />
 
-        {/* Issue #02: Flagship Enterprise Case Studies & Architecture Blueprints */}
+        {/* Issue #02: Flagship Enterprise Case Studies & System Blueprints */}
         <EnterpriseCaseStudies />
 
-        {/* Issue #02.5: Production Code & Architecture Artifacts Inspector */}
-        <CodeArtifactsViewer />
-
-        {/* Issue #02.7: Visual Architecture Flow Simulator */}
+        {/* Issue #02.5: Conceptual System Architecture Flow Simulator */}
         <ArchitectureDiagram />
 
         {/* Issue #03: Technical AI & ML Projects */}
@@ -91,4 +87,3 @@ export const App: React.FC = () => {
 };
 
 export default App;
-
