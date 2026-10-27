@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 import { 
-  ShieldCheck, 
-  Layers, 
-  Cpu, 
-  ExternalLink, 
   CheckCircle2, 
   Flame, 
   ArrowRight, 
   Activity, 
   Lock, 
-  TrendingUp, 
-  Clock, 
-  Database 
+  Code2, 
+  ExternalLink 
 } from 'lucide-react';
 import { enterpriseCaseStudies } from '../data/resumeData';
 import { playClick, playThud } from '../utils/soundEffects';
@@ -23,6 +18,7 @@ export const EnterpriseCaseStudies: React.FC = () => {
   const filters = [
     { id: 'all', label: 'All Architectures' },
     { id: 'ai', label: 'Azure AI & Databricks' },
+    { id: 'graphql', label: 'Monday.com GraphQL Sync' },
     { id: 'power', label: 'Power Platform & Canvas' },
     { id: 'migration', label: 'Migration & RPA' },
   ];
@@ -30,6 +26,7 @@ export const EnterpriseCaseStudies: React.FC = () => {
   const filteredStudies = enterpriseCaseStudies.filter((study) => {
     if (activeTab === 'all') return true;
     if (activeTab === 'ai') return study.tag.includes('Azure') || study.tag.includes('AI') || study.tag.includes('Databricks');
+    if (activeTab === 'graphql') return study.tag.includes('GraphQL') || study.tag.includes('Monday');
     if (activeTab === 'power') return study.tag.includes('Power');
     if (activeTab === 'migration') return study.tag.includes('Migration') || study.tag.includes('RPA');
     return true;
@@ -54,7 +51,7 @@ export const EnterpriseCaseStudies: React.FC = () => {
             </h2>
             
             <p className="mt-3 text-slate-300 max-w-2xl text-sm sm:text-base font-sans leading-relaxed">
-              Real-world systems engineered across Fortune 500 &amp; university environments. Sanitized of proprietary client data while detailing the exact <strong className="text-white">architectural breakthroughs</strong>, <strong className="text-white">delegation workarounds</strong>, and <strong className="text-white">business ROI</strong>.
+              Real-world architectures engineered across healthcare research, global banking, and enterprise operations. Detailing <strong className="text-white">GraphQL upsert engines</strong>, <strong className="text-white">Archive Sanity Gates</strong>, <strong className="text-white">Databricks MERGE batching</strong>, and <strong className="text-white">AI Builder prompt schema validation</strong>.
             </p>
           </div>
 
@@ -63,7 +60,7 @@ export const EnterpriseCaseStudies: React.FC = () => {
             <Lock className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <span className="text-emerald-400 font-bold block">Enterprise NDA Compliant</span>
-              <span>Proprietary data abstracted into reproducible architectural patterns.</span>
+              <span>Client-safe architectural design patterns with verified production metrics.</span>
             </div>
           </div>
         </div>
@@ -90,7 +87,7 @@ export const EnterpriseCaseStudies: React.FC = () => {
 
         {/* Case Studies Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {filteredStudies.map((study, idx) => {
+          {filteredStudies.map((study) => {
             const isExpanded = expandedId === study.id;
             return (
               <div
@@ -161,8 +158,8 @@ export const EnterpriseCaseStudies: React.FC = () => {
 
                   {/* Detailed Solutions Checklist */}
                   {isExpanded && (
-                    <div className="space-y-2 mb-5 pt-3 border-t border-slate-800/80">
-                      <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                    <div className="space-y-3 mb-5 pt-3 border-t border-slate-800/80">
+                      <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block mb-1">
                         System Implementation Steps:
                       </span>
                       {study.architectureSolution.map((sol, sIdx) => (
@@ -171,6 +168,24 @@ export const EnterpriseCaseStudies: React.FC = () => {
                           <span>{sol}</span>
                         </div>
                       ))}
+
+                      {/* Code preview block if available */}
+                      {study.codeSnippetPreview && (
+                        <div className="mt-3 pt-2">
+                          <div className="flex items-center justify-between text-[11px] font-mono text-cyan-300 bg-slate-900 px-3 py-1.5 rounded-t border-t border-x border-slate-800">
+                            <span className="flex items-center gap-1.5 font-bold">
+                              <Code2 className="w-3.5 h-3.5 text-cyan-400" />
+                              {study.codeSnippetPreview.title}
+                            </span>
+                            <span className="uppercase text-[9px] text-slate-400">
+                              {study.codeSnippetPreview.language}
+                            </span>
+                          </div>
+                          <pre className="p-3 bg-[#07080e] border border-slate-800 rounded-b text-[11px] font-mono text-slate-300 overflow-x-auto">
+                            <code>{study.codeSnippetPreview.code}</code>
+                          </pre>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -196,16 +211,16 @@ export const EnterpriseCaseStudies: React.FC = () => {
                       }}
                       className="text-xs font-mono font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 focus:outline-none"
                     >
-                      <span>{isExpanded ? 'Collapse Architecture Specs' : 'View Architecture Specs & Steps'}</span>
+                      <span>{isExpanded ? 'Collapse Architecture Specs' : 'View Architecture Specs & Formulas'}</span>
                       <ArrowRight className={`w-3.5 h-3.5 transition-transform ${isExpanded ? '-rotate-90' : 'rotate-90'}`} />
                     </button>
 
                     <a
-                      href="#architecture"
+                      href="#code-inspector"
                       onClick={() => playClick()}
                       className="text-[11px] font-mono text-slate-400 hover:text-amber-400 flex items-center gap-1"
                     >
-                      <span>Simulate in Visual Flow</span>
+                      <span>Inspect Code</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>

@@ -117,3 +117,4 @@ export const TechnicalProjects: React.FC = () => {
     </section>
   );
 };
+

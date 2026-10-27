@@ -14,41 +14,34 @@ A modern, high-impact personal website inspired by the bold editorial storytelli
 
 ## 💡 How This Solves the "Enterprise Work / No Public Portfolio" Challenge
 
-> *"I currently do not have anything to show for the portfolio as all my major work was for the companies I worked for."*
+Enterprise engineers at firms like **KPI Partners**, **Accenture**, and universities build mission-critical solutions protected by corporate firewalls, SSO, and NDAs.
 
-Enterprise engineers at firms like **Accenture**, **KPI Partners**, and universities build mission-critical solutions protected by corporate firewalls, SSO, and NDAs.
-
-Rather than relying on toy demo apps, this website presents your professional track record as **Enterprise Architectural Case Studies & Production Impact Blueprints**:
-- **Problem & Constraint Framing:** (e.g., Bypassing Power Apps 1,000-record delegation limits; migrating 500+ legacy Nintex flows; extracting vendor contract data with 95%+ confidence).
-- **System Architecture & Data Flows:** How Power Apps, Dataverse, Azure AI Foundry, Databricks SQL, and Logic Apps integrate.
-- **Quantifiable Business ROI:** **60%** clinical review speedup, **15+ hours/week** saved, **70%** compute cost cut, **83.5%** support query reduction.
-- **Client & NDA Safe:** Highlights engineering patterns, schemas, and algorithms without exposing proprietary client data.
+Rather than relying on toy demo apps, this website showcases your verified production capabilities through **Deep-Dive Architectural Case Studies & Live Code Blueprints**:
+- **Medical Review AI Orchestrator & Persistence:** Databricks warehouse SQL (`vs_current_clinical_data`) with delta metrics, AI Builder prompt evaluation (`dm_query` & `medical_query`), schema validation via `ParseJson`, and an immutable **Update-Only constraint** in Azure SQL (`GetItems_V2` + `PatchItem_V2` preventing orphaned inserts).
+- **Embedded PowerBIIntegration Canvas Apps:** Inline clinical adjudication directly within Power BI reports dynamically detecting user roles (`Scientific Reviewer` vs `Medical Reviewer`) and bypassing 1,000-record delegation limits with `ClearCollect`.
+- **Monday.com GraphQL Upsert & Archive Sanity Engine:** Scheduled OneDrive synchronization (`MasterList_yyyymmdd.xlsx`) with Monday.com GraphQL API, composite key upserts `lower(trim(client)) || lower(trim(project))`, and a fail-safe **Archive Sanity Gate** (`rowsRead >= 150 AND rowsRead >= 80% boardCount`) preventing accidental mass board purge.
+- **High-Throughput Risk Category Generator (RACT):** Dynamic array chunking `@chunk(..., 100)` with 20 parallel threads (`repetitions: 20`) executing atomic Databricks `MERGE INTO ... WHEN MATCHED THEN UPDATE` statements without table locks.
+- **Azure AI Foundry Financial POC:** Custom document analyzer trained on a ground-truth corpus of 20 legal contracts and 50 medical invoices with 95%+ confidence.
+- **Power BI Asynchronous Dataset Refreshes:** Automated `POST /refreshes` with exponential backoff on HTTP 429 throttling and polling against `requestId` history.
 
 ---
 
 ## ✨ Features
 
-- 📰 **Editorial / Comic Masthead ("Issue #01"):** High-contrast comic panels, Ben-Day halftone patterns, and bold typography.
-- 💻 **Interactive CLI Command Deck:** Built-in retro terminal with command execution (`help`, `about`, `case-studies`, `projects`, `certs`, `skills`, `cat`, etc.) and hotkey history.
-- ⚡ **Interactive Architecture Flow Simulator:** Step through real production pipelines (Clinical Vitals Flow, Enterprise RACT Ingestion Flow, Student Copilot Flow).
+- 📰 **Editorial / Comic Masthead ("Issue #01"):** High-contrast comic panels, Ben-Day halftone patterns, status badges (`200 OK`, `PL-600 ARCHITECT`), and impact typography.
+- 💻 **Interactive CLI Command Deck:** Built-in retro terminal with command execution (`help`, `about`, `case-studies`, `monday`, `medical`, `poc`, `code`, `certs`, `skills`, `cat`) and hotkey history.
+- 🔬 **Production Code & Architecture Inspector:** Dedicated visual inspector for actual production code artifacts: Databricks SQL atomic MERGE statements, Power Fx `ClearCollect` expressions, Monday.com GraphQL mutations, and AI Builder prompt schemas.
+- ⚡ **Interactive Architecture Flow Simulator:** Step through production data pipelines with stage-by-stage status indicators and execution outputs.
 - 🏆 **8x Microsoft Certifications Gallery:** Interactive badge deck (PL-600 Solution Architect, PL-400 Developer, AZ-204 Azure Developer, AI-900, SC-900, PL-900, AZ-900, MS-900) with category filters and celebration confetti.
-- 🔊 **Web Audio API Sound Synthesizer:** Subtle, optional retro sound FX (zero audio files to download; 100% browser-native).
+- 🔊 **Web Audio API Native Sound Synthesizer:** Subtle, optional retro sound FX (zero external audio files to download; 100% browser-native).
 - 📄 **Instant Resume Modal & Print Preview:** In-browser resume viewer with instant one-click PDF printing.
-- 📱 **Fully Responsive:** Seamless layout from mobile screens up to 4K displays.
 
 ---
 
 ## 🚀 Local Development
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/<your-username>/<your-repo-name>.git
-cd <your-repo-name>
-
-# 2. Install dependencies
-npm install
-
-# 3. Start local development server
+# 1. Start local development server
 npm run dev
 ```
 
@@ -64,18 +57,15 @@ npm run preview
 
 ## 🌐 How to Host on GitHub Pages (100% Free)
 
-You can host this site for free on GitHub Pages using either of the two methods below:
+### Option A: Automated GitHub Actions CI/CD (Recommended)
 
-### Method 1: Automated Deployment via GitHub Actions (Recommended)
-
-This repository already includes `.github/workflows/deploy.yml`.
+This repository includes a pre-configured `.github/workflows/deploy.yml`.
 
 1. **Create a GitHub repository** (e.g., `personal-website` or `<your-username>.github.io`).
 2. **Push your code to the repository**:
    ```bash
-   git init
    git add .
-   git commit -m "feat: initial commit of personal website"
+   git commit -m "feat: add enterprise case studies and architecture blueprints"
    git branch -M main
    git remote add origin https://github.com/<your-username>/<your-repo-name>.git
    git push -u origin main
@@ -83,41 +73,14 @@ This repository already includes `.github/workflows/deploy.yml`.
 3. In GitHub, go to your repository:
    - Click **Settings** &rarr; **Pages** (under "Code and automation" on the left sidebar).
    - Under **Build and deployment** &rarr; **Source**, select **GitHub Actions**.
-4. That's it! Every time you push to the `main` branch, GitHub Actions will automatically compile the site and deploy it to:
+4. Every push to `main` automatically compiles and deploys the site to:
    ```
    https://<your-username>.github.io/<your-repo-name>/
    ```
-   *(Or `https://<your-username>.github.io` if your repository is named `<your-username>.github.io`).*
 
----
+### Option B: One-Command CLI Deploy (`gh-pages`)
 
-### Method 2: One-Command CLI Deploy (`gh-pages`)
-
-If you prefer to deploy directly from your computer terminal without GitHub Actions:
-
-1. In `package.json`, the `deploy` script is already set up:
-   ```bash
-   npm run deploy
-   ```
-2. In GitHub, go to **Settings** &rarr; **Pages**:
-   - Set **Source** to **Deploy from a branch**.
-   - Select the **`gh-pages`** branch and folder **`/ (root)`**, then click **Save**.
-
----
-
-### (Optional) Custom Domain
-
-To connect a custom domain (e.g., `shubhamyadav.dev`):
-1. In your repository **Settings** &rarr; **Pages**, enter your domain under **Custom domain**.
-2. Add a `CNAME` record in your DNS provider pointing to `<your-username>.github.io`.
-
----
-
-## 🛠️ Tech Stack
-
-- **Framework:** React 19 + TypeScript
-- **Bundler:** Vite 6
-- **Styling:** Tailwind CSS 3
-- **Icons:** Lucide React + Custom Brand SVGs
-- **Audio:** Web Audio API Native Synth
-- **Deployment:** GitHub Pages / GitHub Actions
+```bash
+npm run deploy
+```
+Then in GitHub **Settings** &rarr; **Pages**, select branch **`gh-pages`** and folder **`/ (root)`**, then click **Save**.

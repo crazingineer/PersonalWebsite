@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Terminal, Send, Trash2, HelpCircle, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Terminal, Send, Trash2 } from 'lucide-react';
 import { personalInfo, certifications, enterpriseCaseStudies, technicalProjects, experienceData } from '../data/resumeData';
 import { playTerminalKey, playSuccessChime, playClick } from '../utils/soundEffects';
 
@@ -21,7 +21,7 @@ export const InteractiveTerminal: React.FC = () => {
       id: 'boot-1',
       output: (
         <div className="space-y-1 text-slate-300">
-          <div className="text-cyan-400 font-bold">SHUBHAM YADAV // ENTERPRISE CLI ENGINE v2.6.0 [INITIALIZED]</div>
+          <div className="text-cyan-400 font-bold">SHUBHAM YADAV // ENTERPRISE CLI ENGINE v2.7.0 [INITIALIZED]</div>
           <div className="text-slate-400">Master of Applied Computing | Power Platform Solution Architect (PL-600)</div>
           <div className="text-amber-400 font-semibold pt-1">
             Type <span className="underline font-bold text-white">help</span> to view available commands, or click the shortcuts below.
@@ -56,14 +56,54 @@ export const InteractiveTerminal: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 font-mono text-xs">
               <div><span className="text-amber-300 font-bold">about</span> - Background, education & summary</div>
               <div><span className="text-amber-300 font-bold">case-studies</span> - Enterprise architectures</div>
+              <div><span className="text-amber-300 font-bold">monday</span> - Monday.com GraphQL & Sanity Gate</div>
+              <div><span className="text-amber-300 font-bold">medical</span> - Clinical Review AI Orchestrator</div>
+              <div><span className="text-amber-300 font-bold">poc</span> - AI Foundry Financial POC</div>
               <div><span className="text-amber-300 font-bold">projects</span> - AI & Machine Learning projects</div>
               <div><span className="text-amber-300 font-bold">experience</span> - KPI Partners, WLU & Accenture</div>
               <div><span className="text-amber-300 font-bold">certs</span> - All 8 Microsoft certifications</div>
               <div><span className="text-amber-300 font-bold">skills</span> - Stack: Power Platform, Azure, Databricks</div>
+              <div><span className="text-amber-300 font-bold">code</span> - Jump to Production Code Inspector</div>
               <div><span className="text-amber-300 font-bold">contact</span> - Reach out via email & LinkedIn</div>
               <div><span className="text-amber-300 font-bold">cat</span> - Homage to Harley the cat</div>
               <div><span className="text-amber-300 font-bold">clear</span> - Clear the terminal output</div>
             </div>
+          </div>
+        );
+        break;
+
+      case 'monday':
+        outputNode = (
+          <div className="space-y-2 text-xs text-slate-300">
+            <div className="text-cyan-400 font-bold">MONDAY.COM GRAPHQL UPSERT & ARCHIVE SANITY ENGINE:</div>
+            <div>• <strong className="text-amber-300">Source:</strong> MasterList_yyyymmdd.xlsx in OneDrive, dynamic date parsing for latest version.</div>
+            <div>• <strong className="text-cyan-300">Unique Key:</strong> Composite lower(trim(client)) || lower(trim(project)).</div>
+            <div>• <strong className="text-emerald-300">Mutations:</strong> change_multiple_column_values (update), create_item (insert).</div>
+            <div>• <strong className="text-rose-400 font-bold">Archive Sanity Gate:</strong> allowArchive = (rowsRead &gt;= 150) AND (rowsRead &gt;= 0.8 * boardCount). Prevents mass accidental deletion.</div>
+            <div>• <strong className="text-purple-300">Rate Limiting:</strong> 150 req/min with cursor-based pagination and Try-Catch Outlook alerts.</div>
+          </div>
+        );
+        break;
+
+      case 'medical':
+        outputNode = (
+          <div className="space-y-2 text-xs text-slate-300">
+            <div className="text-cyan-400 font-bold">MEDICAL REVIEW AI ORCHESTRATOR & PERSISTENCE:</div>
+            <div>• <strong className="text-amber-300">Databricks Query:</strong> Extracts vs_current_clinical_data where row_status IN ('New', 'Changed') with percentage delta metrics.</div>
+            <div>• <strong className="text-cyan-300">AI Builder Prompt:</strong> Generates bifurcated JSON schema: dm_query (data quality) and medical_query (risk flags, BP shifts, weight increase &gt;10%).</div>
+            <div>• <strong className="text-emerald-300">Strict Persistence:</strong> GetItems_V2 lookup -&gt; PatchItem_V2 only. Absolute rule: ZERO new records created (no orphan rows).</div>
+            <div>• <strong className="text-purple-300">PowerBIIntegration:</strong> Canvas App embedded in Power BI report for inline adjudication.</div>
+          </div>
+        );
+        break;
+
+      case 'poc':
+        outputNode = (
+          <div className="space-y-2 text-xs text-slate-300">
+            <div className="text-cyan-400 font-bold">AZURE AI FOUNDRY FINANCIAL POC:</div>
+            <div>• <strong className="text-amber-300">Objective:</strong> Automated cross-referencing of medical invoices vs governing contracts.</div>
+            <div>• <strong className="text-cyan-300">Training Corpus:</strong> Custom analyzer trained on 20 contracts and 50 corresponding invoices.</div>
+            <div>• <strong className="text-emerald-300">Accuracy & ROI:</strong> &gt;95% confidence score, 50% faster processing, 70% compute cost savings.</div>
           </div>
         );
         break;
@@ -88,7 +128,7 @@ export const InteractiveTerminal: React.FC = () => {
       case 'cases':
         outputNode = (
           <div className="space-y-3">
-            <div className="text-cyan-400 font-bold">ENTERPRISE CASE STUDIES (NDA-SAFE ARCHITECTURES):</div>
+            <div className="text-cyan-400 font-bold">ENTERPRISE CASE STUDIES (BLUEPRINTS):</div>
             {enterpriseCaseStudies.map((study) => (
               <div key={study.id} className="p-2.5 bg-slate-900/80 border border-slate-800 rounded space-y-1 text-xs">
                 <div className="flex justify-between items-center">
@@ -101,6 +141,17 @@ export const InteractiveTerminal: React.FC = () => {
             ))}
           </div>
         );
+        break;
+
+      case 'code':
+        outputNode = (
+          <div className="text-xs text-cyan-300">
+            Navigating to Production Code Inspector... (Or scroll down to Section #02.5)
+          </div>
+        );
+        setTimeout(() => {
+          document.getElementById('code-inspector')?.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
         break;
 
       case 'projects':
@@ -169,10 +220,10 @@ export const InteractiveTerminal: React.FC = () => {
         outputNode = (
           <div className="space-y-2 text-xs">
             <div className="text-cyan-400 font-bold">TECHNICAL SKILLSET SUMMARY:</div>
-            <div><strong className="text-amber-400">Power Platform:</strong> Power Apps, Power Automate, Power Automate Desktop (RPA), Dataverse, Power BI, Power Pages, Copilot Studio, AI Builder, Power Fx.</div>
-            <div><strong className="text-cyan-400">Azure & Data:</strong> Azure Databricks, Azure AI Foundry, Logic Apps, Azure Functions, Azure SQL, FAISS Vector Stores, Microsoft Fabric.</div>
+            <div><strong className="text-amber-400">Power Platform:</strong> Power Apps (Canvas &amp; Embedded), Power Automate, Power Automate Desktop (RPA), Dataverse, Power BI REST API, Copilot Studio, AI Builder, Power Fx.</div>
+            <div><strong className="text-cyan-400">Azure & Data:</strong> Azure Databricks (SQL &amp; Spark), Azure AI Foundry Content Understanding, Logic Apps, Azure Functions, Azure SQL, Monday.com GraphQL.</div>
             <div><strong className="text-emerald-400">SharePoint & Migration:</strong> SharePoint Online, SPFx, PnP Framework, ShareGate, Nintex Migrations.</div>
-            <div><strong className="text-purple-400">Languages & Tools:</strong> C#, Python (Flask, Pandas, scikit-learn), JavaScript/TypeScript (React), SQL, PowerShell, Git, Jira, Confluence.</div>
+            <div><strong className="text-purple-400">Languages & Tools:</strong> C#, Python (Flask, Pandas, scikit-learn), JavaScript/TypeScript (React), SQL, PowerShell, Git, Jira.</div>
           </div>
         );
         break;
@@ -195,7 +246,7 @@ export const InteractiveTerminal: React.FC = () => {
           <div className="p-3 bg-amber-950/40 border border-amber-500/50 rounded text-xs space-y-1 text-amber-200">
             <div className="font-bold text-amber-400">🐾 EASTER EGG UNLOCKED: HARLEY SAYS HI!</div>
             <div className="font-mono text-[11px] leading-relaxed">
-              {" /\\_/\\  \n( o.o )  *purrs approvingly at your Power Automate flows*\n > ^ <   \"1,000-record delegation limit? Shubham bypassed it with chunked ClearCollect!\""}
+              {" /\\_/\\  \n( o.o )  *purrs approvingly at your Monday.com GraphQL flows*\n > ^ <   \"Archive Sanity Gate is holding strong: rowsRead >= 150 & 80% board count verified!\""}
             </div>
           </div>
         );
@@ -249,7 +300,7 @@ export const InteractiveTerminal: React.FC = () => {
     }
   };
 
-  const commandButtons = ['about', 'case-studies', 'projects', 'certs', 'skills', 'experience', 'contact', 'cat'];
+  const commandButtons = ['about', 'monday', 'medical', 'poc', 'case-studies', 'code', 'certs', 'skills', 'experience', 'cat'];
 
   return (
     <section id="terminal-section" className="py-12 bg-[#090b11] border-b-2 border-slate-800">
@@ -317,7 +368,7 @@ export const InteractiveTerminal: React.FC = () => {
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Type a command (e.g. 'case-studies', 'certs', 'contact')..."
+                placeholder="Type a command (e.g. 'monday', 'medical', 'code', 'poc', 'certs')..."
                 className="w-full bg-transparent text-slate-100 font-mono text-xs focus:outline-none placeholder:text-slate-500"
               />
               <button

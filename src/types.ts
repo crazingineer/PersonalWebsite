@@ -23,6 +23,11 @@ export interface EnterpriseCaseStudy {
   keyEngineeringTriumph: string;
   technologies: string[];
   tag: string;
+  codeSnippetPreview?: {
+    language: string;
+    title: string;
+    code: string;
+  };
 }
 
 export interface TechnicalProject {

@@ -6,3 +6,4 @@ export default defineConfig({
   plugins: [react()],
   base: './', // Ensures assets load correctly on GitHub Pages under any path
 });
+

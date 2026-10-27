@@ -132,3 +132,4 @@ export const CertificationsGallery: React.FC = () => {
     </section>
   );
 };
+

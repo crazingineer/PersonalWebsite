@@ -183,3 +183,4 @@ export const HeroCover: React.FC<HeroCoverProps> = ({ onOpenTerminal, onExploreC
     </section>
   );
 };
+

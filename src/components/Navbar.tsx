@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Menu, X, Terminal, Sparkles, FileText, ExternalLink } from 'lucide-react';
+import { Volume2, VolumeX, Menu, X, Terminal, FileText, ExternalLink } from 'lucide-react';
 import { isSoundEnabled, toggleSound, playClick } from '../utils/soundEffects';
 import { personalInfo } from '../data/resumeData';
 
@@ -30,6 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal, onOpenResumeModa
   const navLinks = [
     { label: 'Case Studies', href: '#case-studies' },
     { label: 'Architecture', href: '#architecture' },
+    { label: 'Code & Blueprints', href: '#code-inspector' },
     { label: 'Projects', href: '#projects' },
     { label: 'Journey', href: '#experience' },
     { label: 'Certifications', href: '#certifications' },
@@ -66,7 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal, onOpenResumeModa
               </span>
               <span className="text-[11px] font-mono text-slate-400 tracking-tight flex items-center gap-1">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                POWER PLATFORM & AI
+                POWER PLATFORM &amp; AI
               </span>
             </div>
           </a>
@@ -171,7 +172,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal, onOpenResumeModa
               className="w-full flex items-center justify-center gap-2 py-2 text-xs font-mono font-bold bg-cyan-500 text-black border border-black shadow-[2px_2px_0px_#000]"
             >
               <FileText className="w-4 h-4" />
-              VIEW & PRINT RESUME
+              VIEW &amp; PRINT RESUME
             </button>
             <a
               href={personalInfo.linkedin}

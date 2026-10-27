@@ -10,7 +10,7 @@ export const personalInfo = {
   github: "https://github.com/shubhambhagwatyadav",
   location: "Waterloo, ON / Pune, MH",
   availability: "Open to High-Impact Roles & Consulting",
-  summary: "Results-driven Power Platform and Cloud Data Engineer with extensive experience architecting enterprise low-code systems, deep Azure integrations, automated ETL pipelines, and GenAI-powered workflows. Specialized in bypassing delegation boundaries, orchestrating multi-tenant migrations, and establishing Center of Excellence (CoE) governance across healthcare, banking, and academic domains.",
+  summary: "Results-driven Power Platform Solution Architect (PL-600) and Cloud Data Engineer with extensive experience engineering enterprise low-code systems, deep Azure integrations, automated ETL pipelines, and GenAI-powered workflows. Specialized in bypassing delegation boundaries, orchestrating high-throughput Databricks SQL MERGE pipelines, GraphQL API sync engines with sanity gates, and establishing Center of Excellence (CoE) governance across healthcare, banking, and academic domains.",
   quickStats: [
     { label: "Clinical Review Speedup", value: "60%" },
     { label: "Weekly Hours Saved", value: "63+ hrs" },
@@ -89,48 +89,150 @@ export const certifications: Certification[] = [
 export const enterpriseCaseStudies: EnterpriseCaseStudy[] = [
   {
     id: "clinical-vitals-engine",
-    title: "Clinical Health Risk & Vital Signs Evaluation Engine",
-    clientContext: "KPI Partners (Life Sciences & Healthcare Domain)",
-    role: "Lead Power Platform & AI Analyst",
+    title: "Clinical Health Risk & Medical Review AI Orchestrator",
+    clientContext: "KPI Partners (Life Sciences / Clinical Research)",
+    role: "Lead Power Platform & AI Solution Architect",
     timeline: "Nov 2025 - Present",
-    tag: "Power Platform + Azure Databricks + GenAI",
+    tag: "Power BI Embedded + Databricks + AI Builder + Azure SQL",
     metrics: [
       { label: "Evaluation Speed", value: "60% faster", highlight: true },
-      { label: "Delegation Limit", value: "1,000+ bypassed" },
-      { label: "Data Quality", value: "100% ACID sync" },
-      { label: "Audience", value: "Scientific & Medical Reviewers" }
+      { label: "Delegation Ceiling", value: "Bypassed via Buffer" },
+      { label: "Schema Validation", value: "100% Deterministic" },
+      { label: "Orphaned Records", value: "0% (Strict Failsafe)" }
     ],
-    challenge: "Scientific and medical reviewers struggled with disjointed clinical vitals data (BMI, BP, historical markers) dispersed across siloed databases, blocked by Power Apps 1,000-record delegation limits and manual spreadsheet calculations.",
+    challenge: "Scientific and medical reviewers required seamless inline adjudication of patient vitals (BMI, BP, historical delta variance) within Power BI without navigating external portals, while guaranteeing that AI evaluations strictly update matched records and NEVER insert orphaned rows into Azure SQL.",
     architectureSolution: [
-      "Designed an end-to-end semantic model in Power BI with custom interactive visuals, embedding interactive Canvas Apps directly inside the report canvas for inline adjudication.",
-      "Engineered an asynchronous bulk-edit mechanism using Dataverse/SQL Patch and ClearCollect algorithms, bypassing 1,000-record delegation limits by triggering dynamic dataset refreshes via Power Automate HTTP webhooks.",
-      "Connected an AI Builder pipeline directly to Azure Databricks to monitor newly ingested patient vitals, executing custom LLM prompts that synthesize clinical risk factors and insert structured health queries into Azure SQL."
+      "Extracted clinical vitals and percentage deltas from Databricks warehouse (vs_current_clinical_data) filtering on row_status IN ('New', 'Changed'), utilizing @coalesce() for null normalization.",
+      "Injected clinical arrays into custom AI Builder prompts (aibuilderpredict_customprompt) acting as a Clinical Medical Reviewer, isolating outputs into distinct dm_query (data quality/impossibilities) and medical_query (risk flags, BP shifts, weight increase >10%) parameters, validated deterministically via ParseJson.",
+      "Embedded an interactive Power Apps Canvas App directly into Power BI using [@PowerBIIntegration].Data, dynamically switching reviewer workflows between 'Scientific Reviewer' and 'Medical Reviewer' states.",
+      "Enforced a strict database persistence constraint in Azure SQL: executed GetItems_V2 lookup ($filter=\"record_id eq '<id>'\") followed strictly by PatchItem_V2 (Update-Only), with failsafes blocking any PostItem_V2 inserts.",
+      "Orchestrated asynchronous Power BI semantic model refreshes via POST to Power BI REST API, implementing exponential backoff retry loops on 429 throttling and polling /refreshes matching the requestId header."
     ],
-    keyEngineeringTriumph: "Eliminated the hard 1,000-row Power Apps delegation boundary through chunked memory buffers and webhook-driven dataset recompilations without degrading UI responsiveness.",
-    technologies: ["Power Apps (Canvas)", "Power BI Embedded", "Azure Databricks", "Dataverse", "Power Automate Webhooks", "Azure SQL", "AI Builder"]
+    keyEngineeringTriumph: "Created an immutable Update-Only persistence pattern ensuring zero orphaned records in clinical databases while empowering reviewers to adjudicate live vitals inline through PowerBIIntegration Canvas Apps.",
+    technologies: ["Power Apps (Canvas)", "PowerBIIntegration.Data", "Azure Databricks SQL", "AI Builder Custom Prompt", "Azure SQL", "Power BI REST API", "Power Automate"],
+    codeSnippetPreview: {
+      language: "powerfx",
+      title: "PowerBIIntegration & Role-Based Reviewer Workflow",
+      code: `Set(getStatus, If( Trim(First([@PowerBIIntegration].Data).Role) = "Scientific Reviewer", 
+    "Awaiting Scientific Review", 
+    "Awaiting Medical Review"
+));
+
+ClearCollect(
+    Getdata,
+    ShowColumns(
+        vs_review_workflow_data,
+        Role, Status, data_management_query, medical_query,
+        medical_reviewer_comment, participant_id, record_id,
+        scientific_reviewer_comment, visit_date
+    )
+);`
+    }
+  },
+  {
+    id: "monday-graphql-upsert",
+    title: "MasterFile to Monday.com GraphQL Upsert & Archive Sanity Engine",
+    clientContext: "KPI Partners (Operations & Project Management)",
+    role: "Power Platform Architect & Integrations Lead",
+    timeline: "2026",
+    tag: "Power Automate + Monday.com GraphQL API + OneDrive",
+    metrics: [
+      { label: "Sync Velocity", value: "100% Automated", highlight: true },
+      { label: "Rate Limit Safety", value: "150 req/min Cap" },
+      { label: "Archive Gate", value: ">=150 & >=80% Safe", highlight: true },
+      { label: "Error Recovery", value: "Try-Catch Alerts" }
+    ],
+    challenge: "Enterprise project tracking data in weekly OneDrive Excel workbooks (MasterList_yyyymmdd.xlsx) required automated synchronization with Monday.com boards via GraphQL API, with zero tolerance for accidental mass deletion if a truncated or corrupt file was uploaded.",
+    architectureSolution: [
+      "Engineered a scheduled Power Automate cloud flow that inspects OneDrive folders, parses date suffixes from filenames, and dynamically processes the newest master workbook.",
+      "Constructed a composite unique key using lower(trim(client)) || lower(trim(project)) to accurately match and upsert board items against Excel records.",
+      "Formulated dynamic Monday.com GraphQL mutations (change_multiple_column_values for updates, create_item for new rows) via the HTTP premium connector with custom Authorization headers.",
+      "Engineered an 'Archive Sanity Gate' preventing accidental mass board purge: items are only archived when rowsRead >= 150 AND rowsRead >= 80% of boardCount. If sanity criteria fail, automated Outlook alerts are dispatched and deletions are halted.",
+      "Implemented a comprehensive Try-Catch scope pattern that intercepts API exceptions, handles Excel serial dates (e.g., 46193) vs ISO strings, and paginates through board items using cursor navigation."
+    ],
+    keyEngineeringTriumph: "Architected a fail-safe Archive Sanity Gate that eliminated accidental project deletion risks while synchronizing multi-hundred row workbooks via rate-limited GraphQL mutations.",
+    technologies: ["Power Automate Cloud", "Monday.com GraphQL API", "OneDrive for Business", "Excel Online API", "Office 365 Outlook", "HTTP Connector"],
+    codeSnippetPreview: {
+      language: "graphql",
+      title: "Archive Sanity Gate & GraphQL Upsert Formulation",
+      code: `// Archive Sanity Gate Logic:
+// allowArchive = (rowsRead >= 150) AND (rowsRead >= 0.8 * boardCount)
+// If false: Abort archive, dispatch admin alert email.
+
+// Monday.com GraphQL Mutation:
+mutation ($boardId: ID!, $itemId: ID!, $columnValues: JSON!) {
+  change_multiple_column_values(
+    board_id: $boardId, 
+    item_id: $itemId, 
+    column_values: $columnValues
+  ) {
+    id
+  }
+}`
+    }
   },
   {
     id: "ract-risk-automation",
-    title: "Enterprise Risk Assessment (RACT) & AI Foundry Ingestion",
-    clientContext: "KPI Partners (Enterprise Finance & Operations)",
+    title: "High-Throughput Risk Category Generator (RACT) & Databricks MERGE",
+    clientContext: "KPI Partners (Enterprise Finance & Clinical Risk)",
     role: "Data Analyst II (Power Platform & AI)",
     timeline: "Nov 2025 - Present",
-    tag: "Azure AI Foundry + Databricks SQL + Fabric",
+    tag: "Azure Databricks SQL + AI Builder + Concurrency 20x",
     metrics: [
       { label: "Manual Effort Saved", value: "15+ hrs/week", highlight: true },
-      { label: "Extraction Accuracy", value: "95%+ score", highlight: true },
-      { label: "Processing Speedup", value: "50% faster" },
-      { label: "Compute Cost Cut", value: "70% savings" }
+      { label: "Parallel Threads", value: "20 Concurrent", highlight: true },
+      { label: "Batch Chunk Size", value: "100 records" },
+      { label: "Database Lock Time", value: "Near Zero" }
     ],
-    challenge: "Analysts spent hundreds of monthly hours manually reviewing vendor contracts, medical invoices, and business risk descriptions to compile Risk Assessment and Categorization Tool (RACT) filings, with high human error rates and exorbitant cloud runtimes.",
+    challenge: "Processing thousands of unstructured clinical risk descriptions into standardized Risk Assessment and Categorization Tool (RACT) classifications caused flow timeouts and database lock contention when processed row-by-row.",
     architectureSolution: [
-      "Engineered a high-throughput Power Automate pipeline integrated with AI Builder to ingest natural language risk descriptions and dynamically assign RACT categories.",
-      "Optimized downstream writes by chunking JSON array payloads and executing Databricks SQL MERGE statements, avoiding row-by-row write locks.",
-      "Integrated Azure AI Foundry Content Understanding service to cross-reference extracted vendor contract items against invoiced line items, spotting procedure pricing disparities and replacing legacy brittle Python scripts.",
-      "Implemented automated dynamic Fabric Capacity auto-scaling governed by KQL log alerts and Azure Logic Apps, eliminating idle compute expenses."
+      "Engineered a high-throughput batching architecture utilizing dynamic chunking: @chunk(outputs('Execute_a_SQL_statement')?['body/result/data_array'], 100).",
+      "Configured Apply_to_each_Batch loop with high concurrency control, orchestrating up to 20 concurrent worker threads to process 100-record chunks in parallel.",
+      "Concatenated evaluated AI Builder outputs into structured value matrices using Select and Join expressions.",
+      "Executed an atomic Databricks MERGE INTO statement that explicitly omitted WHEN NOT MATCHED THEN INSERT, enforcing an atomic Update-Only constraint directly at the warehouse level without table locking."
     ],
-    keyEngineeringTriumph: "Reduced cloud compute costs by 70% while improving optical document data extraction confidence to over 95% across unstructured vendor contracts.",
-    technologies: ["Azure AI Foundry", "AI Builder", "Power Automate", "Azure Databricks SQL", "Microsoft Fabric", "KQL Alerts", "Azure Logic Apps"]
+    keyEngineeringTriumph: "Scaled risk classification throughput by 20x using chunked parallel arrays and atomic Databricks MERGE statements, saving 15+ hours of manual assessment weekly.",
+    technologies: ["Power Automate", "Azure Databricks SQL", "AI Builder", "Parallel Execution (20 Threads)", "Chunking Expressions"],
+    codeSnippetPreview: {
+      language: "sql",
+      title: "Atomic Databricks MERGE INTO (Update-Only)",
+      code: `MERGE INTO fcranking_encur.pdc_risk_description_with_ai_category AS target
+USING (
+  SELECT * FROM VALUES 
+  @{body('Join')} 
+  AS inner_alias(id, category, type, new_category, new_type) 
+) AS source 
+ON target.ID = source.id
+WHEN MATCHED THEN
+  UPDATE SET 
+    risk_category_AI = source.category,
+    risk_category_type_AI = source.type,
+    risk_category_AI_new = source.new_category,
+    risk_category_type_AI_new = source.new_type;`
+    }
+  },
+  {
+    id: "ai-foundry-financial-poc",
+    title: "AI Foundry Content Understanding: Financial & Contract Audit POC",
+    clientContext: "KPI Partners (Financial POC & Legal Tech)",
+    role: "AI & Cloud Integration Engineer",
+    timeline: "2026",
+    tag: "Azure AI Foundry + Ground Truth Modeling",
+    metrics: [
+      { label: "Extraction Confidence", value: "95%+ Score", highlight: true },
+      { label: "Training Corpus", value: "20 Contracts / 50 Invoices" },
+      { label: "Audit Time Cut", value: "50% Reduction" },
+      { label: "Cloud Cost Saved", value: "70% Compute Cut" }
+    ],
+    challenge: "Auditors spent countless hours manually cross-referencing complex medical invoices against multi-page vendor master service agreements (MSAs) to spot billing disparities, with legacy Python regex scripts failing on changing document layouts.",
+    architectureSolution: [
+      "Constructed an isolated Proof of Concept (POC) utilizing Azure AI Foundry Content Understanding service for automated contract compliance.",
+      "Trained a custom analyzer model on a manually labeled ground-truth corpus consisting of 20 contract agreements and 50 corresponding complex invoices.",
+      "Established an extraction taxonomy capturing ground-truth billing structures, procedure codes, hourly rates, service deliverables, and line items.",
+      "Programmatically compared extracted invoice line items against contractual rate cards, generating automated discrepancy reports with 95%+ confidence scores and replacing complex legacy scripts."
+    ],
+    keyEngineeringTriumph: "Demonstrated automated contract-to-invoice disparity detection with >95% confidence score, cutting audit cycle times by 50% and reducing infrastructure compute costs by 70%.",
+    technologies: ["Azure AI Foundry", "Content Understanding", "Custom Analyzer Training", "Taxonomy Modeling", "Invoice Extraction"]
   },
   {
     id: "campus-portal-modernization",
@@ -147,10 +249,10 @@ export const enterpriseCaseStudies: EnterpriseCaseStudy[] = [
     ],
     challenge: "University academic teams were overwhelmed with repetitive student inquiries regarding course eligibility, certificate generation, and account balances, while managing a high-stakes transition of 27,000 police officers to the Modern Campus Destiny One platform.",
     architectureSolution: [
-      "Architected and deployed an authenticated Power Pages Student Dashboard, enabling thousands of students to access their enrollment records, course statuses, grades, and fee receipts securely in real-time.",
-      "Engineered a dynamic Live Course Catalog connecting Power Pages Cloud Flow API to the Destiny One REST API via custom HTTP connectors, parsing JSON payloads and synchronizing catalog descriptions straight into Dataverse.",
-      "Deployed Microsoft Copilot Studio agents grounded on internal university knowledge bases to autonomously answer multi-turn student questions with zero human intervention.",
-      "Created an event-driven Power Automate pipeline triggered by course completion webhooks to autonomously generate branded completion certificates and dispatch notifications."
+      "Architected and deployed an authenticated Power Pages Student Dashboard, enabling thousands of students to access enrollment records, active courses, grades, and fee receipts securely in real-time.",
+      "Engineered a dynamic Live Course Catalog connecting Power Pages Cloud Flow API to the Destiny One REST API via custom HTTP connectors, parsing JSON payloads and synchronizing course descriptions into Dataverse.",
+      "Built and deployed custom Microsoft Copilot Studio agents grounded on internal university knowledge bases to autonomously answer multi-turn student queries.",
+      "Created an event-driven Power Automate pipeline triggered by course completion webhooks to autonomously render branded completion certificates and dispatch notifications."
     ],
     keyEngineeringTriumph: "Drove an 83.5% reduction in recurrent student inquiries through authenticated self-service and grounded Copilot Studio agents, while migrating 27,000 active users with zero data loss.",
     technologies: ["Power Pages", "Microsoft Copilot Studio", "Dataverse", "Power Automate", "Destiny One REST API", "Center of Excellence (CoE)"]
@@ -168,16 +270,16 @@ export const enterpriseCaseStudies: EnterpriseCaseStudy[] = [
       { label: "Migration Transparency", value: "4 Sr Mgrs / 9 Leads" },
       { label: "Compliance & DLP", value: "100% ALM Audit" }
     ],
-    challenge: "During large-scale cross-tenant tenant consolidation for a top-tier European banking client, over 500 legacy Nintex and SharePoint Designer workflows along with deprecated InfoPath forms had to be modernized with strict compliance, zero downtime, and complete auditability.",
+    challenge: "During large-scale cross-tenant consolidation for a leading European banking client, over 500 legacy Nintex and SharePoint Designer workflows along with deprecated InfoPath forms had to be modernized with strict compliance, zero downtime, and complete auditability.",
     architectureSolution: [
-      "Executed complex cross-tenant migrations using PowerShell and ShareGate, preserving metadata, list schemas, and granular permission inheritance across thousands of sites.",
-      "Developed an autonomous Power Automate Desktop (RPA) bot that crawled newly migrated SharePoint Online sites, verified visual UI hierarchy, executed interactive form submissions, and captured screenshot evidence for exception logging.",
+      "Executed complex cross-tenant migrations using PowerShell scripts and ShareGate, preserving metadata, list schemas, and granular permission inheritance across thousands of sites.",
+      "Developed an intelligent Power Automate Desktop (RPA) bot that crawled newly migrated SharePoint Online sites, verified visual UI hierarchy, executed interactive form submissions, and captured screenshot evidence for exception logging.",
       "Re-engineered fragile InfoPath legacy forms into secure, responsive Power Apps with Dataverse backend entities, ensuring strict Data Loss Prevention (DLP) compliance.",
       "Standardized enterprise Application Lifecycle Management (ALM) using solution layering, environment variables, and automated solution pipelines between Dev, Test, and Prod.",
       "Delivered real-time SharePoint and Power BI migration telemetry dashboards used daily by 4 senior managers and 9 team leads."
     ],
     keyEngineeringTriumph: "Modernized 500+ legacy Nintex/Designer workflows into Power Automate with zero data corruption and created unattended RPA bots that saved hundreds of hours of manual verification testing.",
-    technologies: ["Power Automate Desktop (RPA)", "SharePoint Online", "Power Apps", "ShareGate", "PowerShell", "Dataverse", "ALM Solutions", "Power BI"]
+    technologies: ["Power Automate Desktop (RPA)", "SharePoint Online", "Power Apps", "Dataverse", "Power BI", "PowerShell", "ShareGate", "Nintex", "ALM / CoE"]
   }
 ];
 
@@ -237,16 +339,17 @@ export const experienceData: ExperienceItem[] = [
     location: "Pune, MH",
     period: "Nov 2025 - Present",
     type: "Full-Time",
-    summary: "Leading Power Platform and AI solution engineering across life sciences and enterprise operations, architecting high-scale automations, Power BI semantic models, and Azure AI Foundry integrations.",
+    summary: "Leading Power Platform and AI solution engineering across life sciences and enterprise operations, architecting high-scale automations, Power BI semantic models, GraphQL cloud sync flows, and Azure AI Foundry integrations.",
     keyAchievements: [
-      "Designed and developed the Vital Signs Review Power BI report with embedded Power Apps Canvas Apps, accelerating clinical evaluation by 60% for Scientific and Medical Reviewers.",
+      "Designed and developed the Vital Signs Review Power BI report with embedded Power Apps Canvas Apps ([@PowerBIIntegration].Data), accelerating clinical evaluation by 60% for Scientific and Medical Reviewers.",
       "Engineered a bulk-edit update mechanism using Dataverse/SQL Patch and ClearCollect, bypassing 1,000-record delegation limits via Power Automate HTTP webhooks.",
-      "Automated business risk analysis with AI Builder and Power Automate, batching array chunks and executing Databricks SQL MERGE statements to save 15+ hours weekly.",
-      "Constructed an automated AI Builder pipeline with Azure Databricks to monitor patient vitals and synthesize clinical health risk queries directly into Azure SQL.",
-      "Extracted vendor contract data via Azure AI Foundry models with 95%+ confidence, reducing invoice dispute processing time by 50% and compute cost by 70%.",
+      "Architected the MasterFile to Monday.com upsert flow using Monday.com GraphQL API, composite key matching, and a strict Archive Sanity Gate (rowsRead >= 150 AND rowsRead >= 80% board count).",
+      "Automated business risk analysis with AI Builder and Power Automate, batching array chunks (@chunk(..., 100)) with 20 parallel threads and executing atomic Databricks SQL MERGE statements, saving 15+ hours weekly.",
+      "Constructed an automated AI Builder pipeline with Azure Databricks to monitor patient vitals, validating outputs via ParseJson and updating Azure SQL with strict Update-Only failsafes.",
+      "Built an AI Foundry Content Understanding POC trained on 20 contracts and 50 invoices, achieving 95%+ confidence in automated line item cross-referencing and reducing processing time by 50% and compute cost by 70%.",
       "Automated dynamic Microsoft Fabric Capacity scaling using KQL log alerts and Azure Logic Apps, preventing compute over-provisioning."
     ],
-    technologies: ["Power Apps", "Power Automate", "Power BI", "Dataverse", "Azure Databricks", "Azure AI Foundry", "Logic Apps", "Fabric", "KQL", "Azure SQL"]
+    technologies: ["Power Apps", "Power Automate", "Power BI REST API", "Dataverse", "Azure Databricks", "Azure AI Foundry", "Monday.com GraphQL", "Logic Apps", "Fabric", "KQL", "Azure SQL"]
   },
   {
     company: "Wilfrid Laurier University",
@@ -308,16 +411,16 @@ export const skillCategories: SkillCategory[] = [
     description: "Enterprise application engineering, ALM governance, and generative automation",
     iconName: "Cpu",
     skills: [
-      { name: "Power Apps (Canvas & Model-Driven)", level: "Expert", featured: true },
+      { name: "Power Apps (Canvas & Embedded)", level: "Expert", featured: true },
       { name: "Power Automate (Cloud & Webhooks)", level: "Expert", featured: true },
       { name: "Power Automate Desktop (RPA)", level: "Expert", featured: true },
       { name: "Microsoft Dataverse", level: "Expert", featured: true },
-      { name: "Power BI & Semantic Modeling", level: "Expert", featured: true },
+      { name: "Power BI & REST API Refreshes", level: "Expert", featured: true },
       { name: "Microsoft Copilot Studio", level: "Advanced", featured: true },
-      { name: "AI Builder", level: "Advanced", featured: true },
-      { name: "Power Pages", level: "Advanced", featured: true },
+      { name: "AI Builder Custom Prompts", level: "Advanced", featured: true },
+      { name: "Power Pages Portals", level: "Advanced", featured: true },
       { name: "Power Platform ALM & CoE", level: "Expert", featured: true },
-      { name: "Power Fx", level: "Expert" },
+      { name: "Power Fx Expressions", level: "Expert", featured: true },
     ]
   },
   {
@@ -325,15 +428,14 @@ export const skillCategories: SkillCategory[] = [
     description: "Big data pipelines, Azure services, and modern LLM vector architectures",
     iconName: "Database",
     skills: [
-      { name: "Azure Databricks", level: "Advanced", featured: true },
-      { name: "Azure AI Foundry", level: "Advanced", featured: true },
-      { name: "Azure SQL Database", level: "Expert", featured: true },
+      { name: "Azure Databricks (SQL & Spark)", level: "Advanced", featured: true },
+      { name: "Azure AI Foundry Content Understanding", level: "Advanced", featured: true },
+      { name: "Azure SQL Database (T-SQL)", level: "Expert", featured: true },
       { name: "Azure Functions & Logic Apps", level: "Advanced", featured: true },
-      { name: "Microsoft Fabric", level: "Proficient", featured: true },
-      { name: "FAISS Vector Stores", level: "Advanced" },
-      { name: "RAG & LLM Integration", level: "Advanced", featured: true },
-      { name: "KQL (Kusto Query Language)", level: "Advanced" },
-      { name: "ETL / ELT Pipelines", level: "Advanced" },
+      { name: "Microsoft Fabric & KQL Alerts", level: "Proficient", featured: true },
+      { name: "Monday.com GraphQL API", level: "Expert", featured: true },
+      { name: "FAISS Vector Stores & RAG", level: "Advanced", featured: true },
+      { name: "Batch Chunking & Parallel Concurrency", level: "Expert", featured: true }
     ]
   },
   {
@@ -356,9 +458,8 @@ export const skillCategories: SkillCategory[] = [
     skills: [
       { name: "Python (Flask, Pandas, scikit-learn)", level: "Advanced", featured: true },
       { name: "SQL (T-SQL, Databricks SQL)", level: "Expert", featured: true },
-      { name: "C# / .NET", level: "Proficient" },
+      { name: "GraphQL & REST APIs", level: "Expert", featured: true },
       { name: "JavaScript / TypeScript (React)", level: "Advanced" },
-      { name: "REST APIs & JSON Processing", level: "Expert", featured: true },
       { name: "HTML5 / CSS3 / Tailwind", level: "Advanced" },
       { name: "Git, Jira, Confluence, VS Code", level: "Expert" }
     ]
