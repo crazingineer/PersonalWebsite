@@ -43,7 +43,6 @@ export const EnterpriseCaseStudies: React.FC = () => {
               <span className="bg-cyan-500 text-black font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000] rounded">
                 ENTERPRISE BLUEPRINTS
               </span>
-              <span className="text-xs font-mono text-cyan-400 font-semibold">PRODUCTION ARCHITECTURES</span>
             </div>
             
             <h2 className="font-bangers text-4xl sm:text-6xl text-white tracking-wide leading-none">

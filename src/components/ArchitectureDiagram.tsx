@@ -91,7 +91,6 @@ export const ArchitectureDiagram: React.FC = () => {
             <span className="bg-amber-400 text-black font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000] rounded">
               SYSTEM ARCHITECTURE
             </span>
-            <span className="text-xs font-mono text-amber-400 font-semibold">INTERACTIVE INTEGRATION TOPOLOGIES</span>
           </div>
 
           <h2 className="font-bangers text-4xl sm:text-6xl text-white tracking-wide">
