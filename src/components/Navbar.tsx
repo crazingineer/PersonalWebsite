@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, FileText, Music, Sparkles } from 'lucide-react';
-import { isMusicPlaying, toggleSoothingMusic, startSoothingMusic, playClick } from '../utils/soundEffects';
+import { Menu, X, FileText, Music } from 'lucide-react';
+import { 
+  isMusicPlaying, 
+  toggleBackgroundMusic, 
+  playBackgroundMusic, 
+  subscribeMusicState, 
+  playClick 
+} from '../utils/soundEffects';
 
 interface NavbarProps {
   onOpenResumeModal?: () => void;
@@ -12,33 +18,43 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    // Attempt soothing music playback on first interaction
-    const handleFirstInteraction = () => {
-      if (!isMusicPlaying()) {
-        startSoothingMusic();
-        setMusicOn(true);
-      }
-      window.removeEventListener('click', handleFirstInteraction);
-      window.removeEventListener('scroll', handleFirstInteraction);
+    // Keep musicOn state strictly synced with audio player
+    const unsubscribe = subscribeMusicState((playing) => {
+      setMusicOn(playing);
+    });
+
+    // Browser Autoplay Policy: attempt playback on first user gesture
+    const handleFirstGesture = async () => {
+      await playBackgroundMusic();
+      window.removeEventListener('click', handleFirstGesture);
+      window.removeEventListener('scroll', handleFirstGesture);
+      window.removeEventListener('touchstart', handleFirstGesture);
+      window.removeEventListener('keydown', handleFirstGesture);
     };
 
-    window.addEventListener('click', handleFirstInteraction, { once: true });
-    window.addEventListener('scroll', handleFirstInteraction, { once: true });
+    window.addEventListener('click', handleFirstGesture, { once: true });
+    window.addEventListener('scroll', handleFirstGesture, { once: true });
+    window.addEventListener('touchstart', handleFirstGesture, { once: true });
+    window.addEventListener('keydown', handleFirstGesture, { once: true });
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
+
     return () => {
+      unsubscribe();
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('click', handleFirstGesture);
+      window.removeEventListener('scroll', handleFirstGesture);
+      window.removeEventListener('touchstart', handleFirstGesture);
+      window.removeEventListener('keydown', handleFirstGesture);
     };
   }, []);
 
-  const handleMusicToggle = () => {
-    const isPlaying = toggleSoothingMusic();
-    setMusicOn(isPlaying);
+  const handleMusicToggle = async () => {
     playClick();
+    await toggleBackgroundMusic();
   };
 
   const navLinks = [
@@ -106,14 +122,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
           {/* Right Action Controls: Comic Music Button + Resume PDF Button */}
           <div className="flex items-center gap-2.5 sm:gap-3">
             
-            {/* Comic Style Ambient Music Button */}
+            {/* Real MP3 Soothing Music Toggle Button */}
             <button
               onClick={handleMusicToggle}
-              title={musicOn ? 'Mute Soothing Ambient Music' : 'Play Soothing Ambient Music'}
+              title={musicOn ? 'Pause Background Music' : 'Play Soothing Background Music'}
               className={`px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-2 border-2 border-black rounded shadow-[2px_2px_0px_#000] transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
                 musicOn
                   ? 'bg-amber-400 text-black shadow-[2px_2px_0px_#000]'
-                  : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800'
+                  : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800'
               }`}
             >
               {musicOn ? (
@@ -127,8 +143,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
                 </>
               ) : (
                 <>
-                  <Music className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">MUSIC</span>
+                  <Music className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="hidden sm:inline">PLAY MUSIC</span>
                 </>
               )}
             </button>
@@ -191,7 +207,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
               className="w-full flex items-center justify-center gap-2 py-2 text-xs font-mono font-bold text-slate-300 bg-slate-900 border-2 border-black rounded shadow-[2px_2px_0px_#000]"
             >
               <Music className="w-4 h-4 text-amber-400" />
-              <span>{musicOn ? 'MUTE BACKGROUND MUSIC' : 'PLAY SOOTHING BACKGROUND MUSIC'}</span>
+              <span>{musicOn ? 'PAUSE BACKGROUND MUSIC' : 'PLAY SOOTHING BACKGROUND MUSIC'}</span>
             </button>
           </div>
         </div>
