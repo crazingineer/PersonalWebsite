@@ -84,3 +84,4 @@ This repository includes a pre-configured `.github/workflows/deploy.yml`.
 npm run deploy
 ```
 Then in GitHub **Settings** &rarr; **Pages**, select branch **`gh-pages`** and folder **`/ (root)`**, then click **Save**.
+

@@ -189,3 +189,4 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal, onOpenResumeModa
     </header>
   );
 };
+
