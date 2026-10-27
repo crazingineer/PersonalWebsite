@@ -57,9 +57,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
         ? 'bg-[#0c0f1a]/95 backdrop-blur-md shadow-[0_4px_0_0_#000]' 
         : 'bg-[#0a0d17] shadow-[0_3px_0_0_#000]'
     }`}>
-      {/* Top Comic Accent Rainbow Strip */}
-      <div className="bg-gradient-to-r from-cyan-400 via-amber-400 to-rose-500 h-1 w-full" />
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
