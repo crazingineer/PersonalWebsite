@@ -5,8 +5,6 @@ import {
   ArrowRight, 
   Activity, 
   Lock, 
-  MessageSquare,
-  Sparkles,
   ExternalLink 
 } from 'lucide-react';
 import { enterpriseCaseStudies } from '../data/resumeData';
@@ -14,7 +12,8 @@ import { playClick, playThud } from '../utils/soundEffects';
 
 export const EnterpriseCaseStudies: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('all');
-  const [expandedId, setExpandedId] = useState<string>(enterpriseCaseStudies[0].id);
+  // Always keep cards minimised by default as requested
+  const [expandedId, setExpandedId] = useState<string>('');
 
   const filters = [
     { id: 'all', label: 'All Architectures' },
@@ -34,17 +33,17 @@ export const EnterpriseCaseStudies: React.FC = () => {
   });
 
   return (
-    <section id="case-studies" className="py-16 sm:py-24 bg-[#0a0d15] relative border-b-2 border-slate-800">
+    <section id="case-studies" className="py-16 sm:py-24 bg-[#0a0d15] relative border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Comic Kicker */}
+        {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="bg-cyan-500 text-black font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000]">
+              <span className="bg-cyan-500 text-black font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000] rounded">
                 ENTERPRISE BLUEPRINTS
               </span>
-              <span className="text-xs font-mono text-cyan-400">ISSUE #02 • PRODUCTION ARCHITECTURES</span>
+              <span className="text-xs font-mono text-cyan-400 font-semibold">PRODUCTION ARCHITECTURES</span>
             </div>
             
             <h2 className="font-bangers text-4xl sm:text-6xl text-white tracking-wide leading-none">
@@ -52,16 +51,16 @@ export const EnterpriseCaseStudies: React.FC = () => {
             </h2>
             
             <p className="mt-3 text-slate-300 max-w-2xl text-sm sm:text-base font-sans leading-relaxed">
-              Real-world systems engineered across healthcare research, global banking, and university platforms. Framed from a high-level systems design and business ROI perspective — reserving proprietary internal implementation details for in-depth interview conversations.
+              Real-world systems engineered across healthcare research, global banking, and university platforms. Focused on high-level systems design and quantifiable business ROI.
             </p>
           </div>
 
           {/* NDA / Verification Notice Pill */}
-          <div className="bg-[#121624] border-2 border-emerald-500/40 p-3.5 rounded-lg shadow-[3px_3px_0px_rgba(16,185,129,0.3)] max-w-xs font-mono text-xs text-slate-300 flex items-start gap-2.5">
+          <div className="bg-[#121624] border-2 border-emerald-500/40 p-3 rounded-lg shadow-[3px_3px_0px_rgba(16,185,129,0.3)] max-w-xs font-mono text-xs text-slate-300 flex items-start gap-2.5">
             <Lock className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <span className="text-emerald-400 font-bold block">Enterprise NDA Compliant</span>
-              <span>Proprietary data abstracted into architectural patterns. Technical implementations available for live discussion.</span>
+              <span>Client-safe architectural design patterns with verified production metrics.</span>
             </div>
           </div>
         </div>
@@ -93,7 +92,7 @@ export const EnterpriseCaseStudies: React.FC = () => {
             return (
               <div
                 key={study.id}
-                className="bg-[#101420] border-3 border-black shadow-[6px_6px_0px_#000] p-5 sm:p-7 flex flex-col justify-between hover:border-cyan-500/60 transition-colors relative"
+                className="bg-[#101420] border-3 border-black shadow-[6px_6px_0px_#000] p-5 sm:p-7 flex flex-col justify-between hover:border-cyan-500/60 transition-colors relative rounded-lg"
               >
                 <div>
                   {/* Category and Timeline */}
@@ -151,36 +150,21 @@ export const EnterpriseCaseStudies: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Key Architectural Solutions */}
+                  {/* Key Architectural Highlights (Minimised to 2 concise points by default) */}
                   <div className="space-y-2 mb-4">
                     <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                      Key Architectural Pillars:
+                      Architectural Highlights:
                     </span>
-                    {study.architectureHighlights.slice(0, isExpanded ? study.architectureHighlights.length : 2).map((sol, sIdx) => (
+                    {(isExpanded 
+                      ? study.architectureHighlights 
+                      : study.architectureHighlights.slice(0, 2)
+                    ).map((sol, sIdx) => (
                       <div key={sIdx} className="flex items-start gap-2 text-xs text-slate-300 leading-relaxed font-sans">
                         <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
                         <span>{sol}</span>
                       </div>
                     ))}
                   </div>
-
-                  {/* Interview Discussion Callout (Highlighting expertise without exposing proprietary code) */}
-                  {isExpanded && (
-                    <div className="bg-[#121626] border-l-4 border-amber-400 p-3.5 rounded-r my-4 font-sans text-xs">
-                      <div className="flex items-center gap-1.5 text-amber-300 font-mono font-bold mb-2">
-                        <MessageSquare className="w-3.5 h-3.5 text-amber-400" />
-                        <span>Topics We Can Dive Into in an Interview:</span>
-                      </div>
-                      <ul className="space-y-1.5 text-slate-300">
-                        {study.interviewTopics.map((topic, tIdx) => (
-                          <li key={tIdx} className="flex items-start gap-1.5 text-[11px] leading-relaxed">
-                            <span className="text-amber-400 font-bold">&rsaquo;</span>
-                            <span>{topic}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                 </div>
 
                 {/* Footer with Stack Tags and Expand Toggle */}
@@ -204,7 +188,7 @@ export const EnterpriseCaseStudies: React.FC = () => {
                       }}
                       className="text-xs font-mono font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 focus:outline-none"
                     >
-                      <span>{isExpanded ? 'Collapse Architecture Specs' : 'Expand System Specs & Interview Talking Points'}</span>
+                      <span>{isExpanded ? 'Collapse Architecture Specs' : 'View Full Architecture Highlights'}</span>
                       <ArrowRight className={`w-3.5 h-3.5 transition-transform ${isExpanded ? '-rotate-90' : 'rotate-90'}`} />
                     </button>
 

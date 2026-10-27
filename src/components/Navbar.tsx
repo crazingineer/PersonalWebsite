@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Menu, X, FileText, Music, Disc } from 'lucide-react';
+import { Menu, X, FileText, Music, Sparkles } from 'lucide-react';
 import { isMusicPlaying, toggleSoothingMusic, startSoothingMusic, playClick } from '../utils/soundEffects';
 
 interface NavbarProps {
@@ -12,7 +12,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    // Attempt soothing music autoplay on first user interaction
+    // Attempt soothing music playback on first interaction
     const handleFirstInteraction = () => {
       if (!isMusicPlaying()) {
         startSoothingMusic();
@@ -52,75 +52,79 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
   ];
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${
+    <header className={`sticky top-0 z-50 transition-all duration-200 border-b-3 border-black ${
       scrolled 
-        ? 'bg-[#090b10]/95 backdrop-blur-md border-b border-cyan-500/20 shadow-xl shadow-black/60' 
-        : 'bg-[#090b10] border-b border-slate-800'
+        ? 'bg-[#0c0f1a]/95 backdrop-blur-md shadow-[0_4px_0_0_#000]' 
+        : 'bg-[#0a0d17] shadow-[0_3px_0_0_#000]'
     }`}>
-      {/* Top accent gradient line */}
-      <div className="bg-gradient-to-r from-cyan-500 via-amber-400 to-cyan-500 h-[2px] w-full" />
+      {/* Top Comic Accent Rainbow Strip */}
+      <div className="bg-gradient-to-r from-cyan-400 via-amber-400 to-rose-500 h-1 w-full" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
-          {/* Logo / Personal Brand Brandmark */}
+          {/* Comic Style Brand Identity on Left */}
           <a 
             href="#overview" 
             onClick={() => playClick()}
-            className="group flex items-center gap-3.5 focus:outline-none"
+            className="group flex items-center gap-3 focus:outline-none"
           >
+            {/* Avatar with comic border and shadow */}
             <div className="relative">
-              <img 
-                src="./shubham-yadav.png" 
-                alt="Shubham Yadav" 
-                className="w-11 h-11 rounded-full object-cover border-2 border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)] group-hover:scale-105 transition-transform" 
-              />
-              <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#090b10] shadow-[0_0_6px_#10b981]" />
+              <div className="w-12 h-12 rounded-lg overflow-hidden border-2 border-black shadow-[3px_3px_0px_#000] bg-cyan-500 group-hover:-translate-y-0.5 group-hover:shadow-[4px_4px_0px_#000] transition-all">
+                <img 
+                  src="./shubham-yadav.png" 
+                  alt="Shubham Yadav" 
+                  className="w-full h-full object-cover object-center" 
+                />
+              </div>
+              <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-black shadow-[1px_1px_0px_#000]" />
             </div>
 
+            {/* Name & Title */}
             <div className="flex flex-col text-left">
-              <span className="font-bangers text-2xl tracking-wide text-white group-hover:text-cyan-400 transition-colors">
+              <span className="font-bangers text-2xl sm:text-3xl tracking-wide text-white group-hover:text-cyan-400 transition-colors drop-shadow-[1px_1px_0px_#000]">
                 SHUBHAM YADAV
               </span>
-              <span className="text-[11px] font-mono font-medium text-slate-400 tracking-tight">
-                Power Platform &amp; Azure AI Architect
+              <span className="text-[11px] font-mono font-bold text-cyan-400 tracking-tight flex items-center gap-1.5 -mt-0.5">
+                <span>SOLUTION ARCHITECT &amp; AI</span>
               </span>
             </div>
           </a>
 
-          {/* Desktop Nav Links (Properly Centered and Aligned) */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+          {/* Recruiter-Friendly Comic Navigation Pills */}
+          <nav className="hidden lg:flex items-center gap-1.5">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={() => playClick()}
-                className="px-3 py-2 text-xs xl:text-sm font-semibold tracking-wide text-slate-300 hover:text-cyan-400 hover:bg-slate-800/60 rounded-md transition-all font-mono"
+                className="px-3.5 py-1.5 text-xs font-mono font-bold text-slate-300 hover:text-cyan-300 hover:bg-[#161a29] border border-transparent hover:border-black hover:shadow-[2px_2px_0px_#000] rounded transition-all hover:-translate-y-0.5"
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          {/* Right Action Elements (Aligned) */}
+          {/* Right Action Controls: Comic Music Button + Resume PDF Button */}
           <div className="flex items-center gap-2.5 sm:gap-3">
             
-            {/* Soothing Background Music Toggle Pill */}
+            {/* Comic Style Ambient Music Button */}
             <button
               onClick={handleMusicToggle}
-              title={musicOn ? 'Mute Soothing Music' : 'Play Soothing Ambient Music'}
-              className={`px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-2 border rounded-full transition-all ${
+              title={musicOn ? 'Mute Soothing Ambient Music' : 'Play Soothing Ambient Music'}
+              className={`px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-2 border-2 border-black rounded shadow-[2px_2px_0px_#000] transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] ${
                 musicOn
-                  ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/60 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
-                  : 'bg-slate-900/80 text-slate-400 border-slate-700 hover:text-slate-200'
+                  ? 'bg-amber-400 text-black shadow-[2px_2px_0px_#000]'
+                  : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
               {musicOn ? (
                 <>
                   <div className="flex items-end gap-0.5 h-3">
-                    <span className="w-0.5 h-2 bg-cyan-400 animate-pulse" />
-                    <span className="w-0.5 h-3 bg-cyan-400 animate-pulse delay-75" />
-                    <span className="w-0.5 h-1.5 bg-cyan-400 animate-pulse delay-150" />
+                    <span className="w-0.5 h-2 bg-black animate-pulse" />
+                    <span className="w-0.5 h-3 bg-black animate-pulse delay-75" />
+                    <span className="w-0.5 h-1.5 bg-black animate-pulse delay-150" />
                   </div>
                   <span className="hidden sm:inline">MUSIC ON</span>
                 </>
@@ -132,26 +136,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
               )}
             </button>
 
-            {/* Direct Official Resume PDF Download/View Button */}
+            {/* Tactile Comic Style Official Resume PDF Button */}
             <a
               href="./Shubham_Yadav_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => playClick()}
-              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold font-mono bg-cyan-500 hover:bg-cyan-400 text-black border-2 border-black shadow-[3px_3px_0px_#000] rounded hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 text-xs font-mono font-bold bg-cyan-400 hover:bg-cyan-300 text-black border-2 border-black shadow-[3px_3px_0px_#000] rounded hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] transition-all"
             >
-              <FileText className="w-3.5 h-3.5" />
+              <FileText className="w-3.5 h-3.5 text-black" />
               <span>RESUME PDF</span>
             </a>
 
-            {/* Mobile Hamburger Toggle */}
+            {/* Mobile Menu Hamburger */}
             <button
               onClick={() => {
                 playClick();
                 setMobileMenuOpen(!mobileMenuOpen);
               }}
-              className="lg:hidden p-2 text-slate-300 hover:text-white border border-slate-700 rounded bg-slate-800/80"
-              aria-label="Toggle menu"
+              className="lg:hidden p-2 text-slate-300 hover:text-white border-2 border-black rounded bg-slate-900 shadow-[2px_2px_0px_#000]"
+              aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -161,7 +165,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#0c0f18] border-b border-cyan-500/30 px-4 pt-3 pb-6 space-y-2 shadow-2xl">
+        <div className="lg:hidden bg-[#0c0f1a] border-t-2 border-black px-4 pt-3 pb-6 space-y-2 shadow-2xl">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -180,16 +184,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
               href="./Shubham_Yadav_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-mono font-bold bg-cyan-500 text-black border border-black shadow-[2px_2px_0px_#000] rounded"
+              className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-mono font-bold bg-cyan-400 text-black border-2 border-black shadow-[3px_3px_0px_#000] rounded"
             >
               <FileText className="w-4 h-4" />
               VIEW OFFICIAL RESUME (PDF)
             </a>
             <button
               onClick={handleMusicToggle}
-              className="w-full flex items-center justify-center gap-2 py-2 text-xs font-mono text-slate-300 bg-slate-900 border border-slate-700 rounded"
+              className="w-full flex items-center justify-center gap-2 py-2 text-xs font-mono font-bold text-slate-300 bg-slate-900 border-2 border-black rounded shadow-[2px_2px_0px_#000]"
             >
-              <Music className="w-4 h-4 text-cyan-400" />
+              <Music className="w-4 h-4 text-amber-400" />
               <span>{musicOn ? 'MUTE BACKGROUND MUSIC' : 'PLAY SOOTHING BACKGROUND MUSIC'}</span>
             </button>
           </div>
