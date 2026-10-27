@@ -25,10 +25,10 @@ export const TechnicalProjects: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="bg-purple-600 text-white font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000]">
-                AI &amp; DATA LABS
+              <span className="bg-purple-600 text-white font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000] rounded">
+                AI &amp; DATA SYSTEMS
               </span>
-              <span className="text-xs font-mono text-purple-400">ISSUE #03 • DEEP TECH PROJECTS</span>
+              <span className="text-xs font-mono text-purple-400 font-semibold">APPLIED ENGINEERING PROJECTS</span>
             </div>
 
             <h2 className="font-bangers text-4xl sm:text-6xl text-white tracking-wide">

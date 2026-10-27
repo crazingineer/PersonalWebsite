@@ -26,10 +26,10 @@ export const SkillsMatrix: React.FC = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 mb-2">
-            <span className="bg-rose-600 text-white font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000]">
-              THE SKILLS FOUNDRY
+            <span className="bg-rose-600 text-white font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000] rounded">
+              CORE EXPERTISE
             </span>
-            <span className="text-xs font-mono text-rose-400">ISSUE #06 • PRODUCTION ARSENAL</span>
+            <span className="text-xs font-mono text-rose-400 font-semibold">ENTERPRISE TOOLCHAIN</span>
           </div>
 
           <h2 className="font-bangers text-4xl sm:text-6xl text-white tracking-wide">

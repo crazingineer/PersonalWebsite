@@ -88,18 +88,18 @@ export const ArchitectureDiagram: React.FC = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 mb-2">
-            <span className="bg-amber-400 text-black font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000]">
-              INTERACTIVE BLUEPRINT
+            <span className="bg-amber-400 text-black font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000] rounded">
+              SYSTEM ARCHITECTURE
             </span>
-            <span className="text-xs font-mono text-amber-400">DATA &amp; AUTOMATION SIMULATOR</span>
+            <span className="text-xs font-mono text-amber-400 font-semibold">INTERACTIVE INTEGRATION TOPOLOGIES</span>
           </div>
 
           <h2 className="font-bangers text-4xl sm:text-6xl text-white tracking-wide">
-            ENTERPRISE <span className="text-amber-400">SYSTEM FLOWS</span>
+            ENTERPRISE <span className="text-amber-400">INTEGRATION FLOWS</span>
           </h2>
           
           <p className="mt-3 text-slate-300 text-sm sm:text-base font-sans leading-relaxed">
-            Step through the actual low-code, cloud data, and AI orchestration pipelines engineered for production stability and extreme throughput.
+            Interactive step-by-step visualizations demonstrating how low-code automation, cloud analytics, and AI endpoints integrate across production environments.
           </p>
         </div>
 

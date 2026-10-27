@@ -11,10 +11,10 @@ export const ExperienceTimeline: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 mb-2">
-            <span className="bg-emerald-500 text-black font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000]">
+            <span className="bg-emerald-500 text-black font-bangers text-xs sm:text-sm px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000] rounded">
               CAREER TIMELINE
             </span>
-            <span className="text-xs font-mono text-emerald-400">ISSUE #04 • PROFESSIONAL CHRONICLE</span>
+            <span className="text-xs font-mono text-emerald-400 font-semibold">ENTERPRISE TRACK RECORD</span>
           </div>
 
           <h2 className="font-bangers text-4xl sm:text-6xl text-white tracking-wide">
